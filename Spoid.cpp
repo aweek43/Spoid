@@ -42,7 +42,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         0,                              // Optional window styles.
         MainWindow_CLASS_NAME,                     // Window class
         L"Spoid",    // Window text
-        // 최대화, 최소화 버튼 제거
+        // remove MAXIMIZE button & MINIMIZE button
         WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_MINIMIZEBOX,            // Window style
 
         // Size and position
@@ -64,7 +64,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         L"",    // Window text
         WS_OVERLAPPEDWINDOW,            // Window style
 
-        // 최대화
+        // maximize
         0, 0, 99999, 99999,
 
         hwndMainWindow,       // Parent window    
@@ -82,7 +82,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         0,                              // Optional window styles.
         PreviewWindow_CLASS_NAME,                     // Window class
         L"Preview",    // Window text
-        // title bar 제거
+        // remove title bar
         WS_OVERLAPPEDWINDOW & WS_BORDER,            // Window style
 
         // Size and position
@@ -98,7 +98,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         return 0;
     }
 
-    // Fake Window에 투명도 설정 추가
+    // Add transparency setting to Fake Window
     SetWindowLong(hwndFakeWindow, GWL_EXSTYLE, GetWindowLong(hwndFakeWindow, GWL_EXSTYLE) | WS_EX_LAYERED);
     SetLayeredWindowAttributes(hwndFakeWindow, 0, 1, LWA_ALPHA);
 
@@ -126,7 +126,7 @@ LRESULT CALLBACK WindowProcMainWindow(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 {
     HDC hdc;
     PAINTSTRUCT ps;
-    LPCWSTR szMessage = L"우클릭하면 스포이드 시작";
+    LPCWSTR szMessage = L"Right click to start Spoid";
 
     switch (uMsg)
     {
@@ -135,7 +135,7 @@ LRESULT CALLBACK WindowProcMainWindow(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
         SetCursor(normalCursor);
         return 0;
     }
-    case WM_RBUTTONDOWN: // 스포이드 활성화
+    case WM_RBUTTONDOWN: // spoid activation
     {
         // find fake&preview window
         HWND fakeWindow = FindWindow(L"FakeWindow", NULL);
@@ -174,7 +174,7 @@ LRESULT CALLBACK WindowProcFakeWindow(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 {
     switch (uMsg)
     {
-    case WM_LBUTTONDOWN: // 색상 선택
+    case WM_LBUTTONDOWN: // select color
     {
         // find main&preview window
         HWND mainWindow = FindWindow(L"MainWindow", NULL);
@@ -263,7 +263,7 @@ std::wstring s2ws(const std::string& s)
     return r;
 }
 
-// 자리수가 안맞으면 이전에 paint된 text가 그대로 남아있음
+// If the number of digits is not the same, the previously painted text remains as it is.
 std::string colorFormat(std::string s)
 {
     switch (s.length())
